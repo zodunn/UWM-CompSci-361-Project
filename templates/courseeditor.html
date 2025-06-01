@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="/styles/style.css" rel="stylesheet"/>
+    <title>Course Editor</title>
+</head>
+<style>
+    body {
+        background: linear-gradient(to bottom, #CAF1DE 0%, #fff2bd 100%);
+        background-attachment: fixed
+    }
+
+    h3 {
+        font-family: SansSerif;
+        font-weight: 10;
+        color: steelblue;
+    }
+
+    .btn {
+        background-color: #ACDDDE;
+        border-radius: 10px;
+        font-family: SansSerif;
+        color: steelblue;
+        transition-duration: .5s;
+        border-width: 0;
+        border-color: #49b4b6;
+    }
+
+    .btn2 {
+        width: 250px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .btn:hover {
+        background-color: #c8e9e9;
+        color: steelblue;
+        border-width: 3px;
+    }
+
+    btntxt {
+        color: steelblue;
+        font-family: SansSerif;
+    }
+
+    .col-4 {
+        border-color: #317b7c;
+        background-color: #c8e9e9;
+        color: #317b7c;
+        font-family: SansSerif
+    }
+
+    .col {
+        border-color: #317b7c;
+        background-color: #c8e9e9;
+        color: #317b7c;
+        font-family: SansSerif
+    }
+
+    .row {
+        width: 500px;
+        height: 50px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+<body style="background-color: lightgrey">
+<form action="courseeditor.html" method="post">
+    {% csrf_token %}
+    <a href="home.html" target="_self" style="position:fixed; top:25px; left:25px">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Home_free_icon.svg/690px-Home_free_icon.svg.png"
+             width="50" height="50" alt="Return to Home"/>
+    </a>
+    <h3 align="center" style="padding-top:25px"> Course Editor </h3>
+    <div class="container" align="center" style="padding-top:200px ">
+        <div class="row input-group">
+            <div class="col-4 input-group-text"> Course Name:</div>
+            <div class="col input-group-text"> <input type="text" class="form-control" name="NewName" value="{{ name }}"> </div>
+        </div>
+        <div class="row input-group">
+            <div class="col-4 input-group-text"> Course Number:</div>
+            <div class="col input-group-text"> {{ number }} </div>
+        </div>
+        <div class="row input-group">
+            <div class="col-4 input-group-text"> Instructor:</div>
+            <div class="col input-group-text">
+                <select class="form-control" name="Instructor">
+                    {% if not i is None %}
+                        <option selected value="{{ i.email }}">{{ i.first_name }} {{ i.last_name }}</option>
+                    {% endif %}
+                    <option value="">None</option>
+                    {% for i in instructors %}
+                        <option value="{{ i.email }}"> {{ i.first_name }} {{ i.last_name }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row input-group">
+            <div class="col-4 input-group-text"> TA Add:</div>
+            <div class="col input-group-text">
+                <select class="input-group form-control" name="AddTA" placeholder="Select TA">
+                    <option disabled selected value=""> Select TA</option>
+                    {% for i in addtas %}
+                        <option value="{{ i.email }}"> {{ i.first_name }} {{ i.last_name }}: {{ i.skills }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col input-group-text">
+                <input class="form-control btn" type="submit" name="Add" value="Add TA">
+            </div>
+        </div>
+        <div class="row input-group">
+            <div class="col-4 input-group-text"> TA Remove:</div>
+            <div class="col input-group-text">
+                <select class="input-group form-control" name="RemoveTA" placeholder="Select TA">
+                    <option disabled selected value=""> Select TA</option>
+                    {% for i in removetas %}
+                        <option value="{{ i.email }}"> {{ i.first_name }} {{ i.last_name }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col input-group-text">
+                <input class="form-control btn" type="submit" name="Remove" value="Remove TA">
+            </div>
+        </div>
+    {{ message }}
+    </div>
+    <div style="position:fixed; bottom:25px; left:25px">
+        <br>
+        <a href="course.html" class="btn"> Back To Course Interface </a>
+    </div>
+    <input style="position:fixed; bottom:25px; right:25px" type="submit" class="btn" name="ConfirmChanges"
+           value="Confirm Changes">
+</form>
+</body>
+</html>

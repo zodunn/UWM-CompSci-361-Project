@@ -1,0 +1,38 @@
+
+
+    body{
+        background: linear-gradient(to bottom, #CAF1DE 0%, #fff2bd 100%);
+        background-attachment: fixed
+    }
+    .marty{
+        margin-top:75px
+    }
+    .btn{
+        background-color: #ACDDDE;
+        border-radius: 10px;
+        font-family: "Lucida Console";
+        color:steelblue;
+        transition-duration: .5s;
+        border-width:0;
+        border-color: #49b4b6;
+    }
+    .row{
+        width:500px;
+        height:50px;
+        margin-top:10px;
+        margin-bottom:10px;
+    }
+    .btn:hover{
+        background-color: #c8e9e9;
+        color: steelblue;
+        border-width: 3px;
+    }
+    btntxt{
+        color: #317b7c;
+        font-family: Dubai;
+    }
+    h3{
+        font-family:"Lucida Console";
+        font-weight:10;
+        color:steelblue;
+    }

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Course Interface</title>
+</head>
+<style>
+    body {
+        background: linear-gradient(to bottom, #CAF1DE 0%, #fff2bd 100%);
+        background-attachment: fixed
+    }
+    .btn2{
+        width:250px;
+        padding-top:10px;
+        padding-bottom:10px;
+        margin-top:10px;
+    }
+    .btn {
+        background-color: #ACDDDE;
+        border-radius: 10px;
+        font-family: SansSerif;
+        color: steelblue;
+        transition-duration: .5s;
+        border-width: 0;
+        border-color: #49b4b6;
+    }
+
+    .row {
+        width: 500px;
+        height: 50px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .btn:hover {
+        background-color: #c8e9e9;
+        color: steelblue;
+        border-width: 3px;
+    }
+
+    h3 {
+        font-family: SansSerif;
+        font-weight: 10;
+        color: steelblue;
+    }
+</style>
+<body>
+<form action="section.html" method="post">
+    {% csrf_token %}
+    <a href="/home.html" target="_self" style="position:fixed; top:25px; left:25px">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Home_free_icon.svg/690px-Home_free_icon.svg.png"
+             width="50" height="50" alt="Return to Home"/>
+    </a>
+    <h3 align="center" style="padding-top:25px"> Section Interface </h3>
+    <div class="container" align="center" style="padding-top:50px">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: center">Section Type</th>
+                <th scope="col" style="text-align: center">Section Number</th>
+                <th scope="col" style="text-align: center">Location</th>
+                <th scope="col" style="text-align: center">Start Time</th>
+                <th scope="col" style="text-align: center">End Time</th>
+                <th scope="col" style="text-align: center">Days</th>
+                <th scope="col" style="text-align: center">TA</th>
+                {% if user.account_type == "Supervisor" or user.account_type == "Instructor"%}
+                    <th scope="col" style="text-align: center">Edit Section Information</th>
+                    {% if user.account_type == "Supervisor" %}
+                    <th scope="col" style="text-align: center">Delete Section</th>
+                    {% endif %}
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in sections %}
+                <tr>
+                    <th scope="row" style="text-align: left">{{ i.section_type }}</th>
+                    <td>{{ i.number }}</td>
+                    <td>{{ i.location }}</td>
+                    <td>{{ i.start_time }}</td>
+                    <td>{{ i.end_time }}</td>
+                    <td>{{ i.week_days }}</td>
+                    {% if i.user == None %}
+                        <td>No TA Assigned</td>
+                    {% endif %}
+                    {% if not i.user == None %}
+                        <td>{{ i.user.first_name }} {{ i.user.last_name }}</td>
+                    {% endif %}
+                    {% if user.account_type == "Supervisor" or "Instructor"%}
+                        <td class="text-center"><input type="submit" role="button" name="{{ i.number }}" value="Edit Section Information"
+                                   class="btn"></td>
+                        {% if user.account_type == "Supervisor" %}
+                        <td class="text-center"><input type="submit" role="button" name="{{ i.number }}" value="Delete Section"
+                                   class="btn"></td>
+                        {% endif %}
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if user.account_type == "Supervisor" %}
+            <input type="submit" role="button" name="Create" value="Create a Section" class="btn btn-md">
+        {% endif %}
+    </div>
+    <div style="position:fixed; bottom:25px; left:25px">
+        <a href="course.html" class="btn btn2"> Back To Course Interface </a>
+    </div>
+    <br>
+    <div class="container" align="center" style="padding-top:150px">
+        {{ message }}
+    </div>
+</form>
+</body>
+</html>
